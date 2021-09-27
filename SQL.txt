@@ -1,0 +1,48 @@
+Q1)
+select rril.brandcode, count(rril.brandCode) as receipts
+FROM rewardsReceiptItemList as rril
+inner join receipts as r on rril.receipt_id = r.receipt_id
+where rril.brandcode is not null and r.scannedDate > DATE_SUB(now(), INTERVAL 1 MONTH)
+group by rril.brandcode
+order by receipts desc limit 5
+
+Q2)select rril.brandcode, count(rril.brandCode) as receipts
+FROM rewardsReceiptItemList as rril
+inner join receipts as r on rril.receipt_id = r.receipt_id
+where rril.brandcode is not null and r.scannedDate > DATE_SUB(now(), INTERVAL 2 MONTH)
+group by rril.brandcode
+order by receipts desc 
+
+
+
+Q3)
+Select rewardsReceiptStatus, Avg(totalSpent) as Average_Spend from receipts
+where rewardsReceiptStatus='REJECTED' or rewardsReceiptStatus='FINISHED'
+group by rewardsReceiptStatus
+
+Finished is greater
+
+Q4)
+Select rewardsReceiptStatus, sum(purchasedItemCount) as total_purchased_item  from receipts
+where rewardsReceiptStatus='REJECTED' or rewardsReceiptStatus='FINISHED'
+group by rewardsReceiptStatus
+
+Finished is greater
+
+Q5)
+Select rril.brandcode, sum(rril.itemPrice) as total
+from rewardsReceiptItemList as rril
+inner join receipts as r on rril.receipt_id = r.receipt_id
+inner join users as u on r.userId = u.user_id
+WHERE rril.brandcode is not null and u.createdDate > DATE_SUB(now(), INTERVAL 6 MONTH)
+group by rril.brandcode
+order by total desc limit 1
+
+Q6)
+Select rril.brandcode, count(rril.brandcode) as total
+from rewardsReceiptItemList as rril
+inner join receipts as r on rril.receipt_id = r.receipt_id
+inner join users as u on r.userId = u.user_id
+WHERE rril.brandcode is not null and u.createdDate > DATE_SUB(now(), INTERVAL 6 MONTH)
+group by rril.brandcode
+order by total desc limit 1
